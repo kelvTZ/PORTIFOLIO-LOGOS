@@ -377,16 +377,16 @@
 
 <main class="w-full" id="projects">
 
-<!-- Section Animais (NEW - Zig Zag Cinematic Layout) -->
+<!-- Section Animais (NEW - Grid Layout) -->
 <section id="animal-section" class="py-section-gap px-margin-desktop max-w-[1200px] mx-auto overflow-hidden">
-    <div class="mb-20 text-center max-w-2xl mx-auto reveal">
+    <div class="mb-16 text-center max-w-2xl mx-auto reveal">
         <span class="font-label-caps text-label-caps text-primary tracking-[0.1em]">02. ANIMAL COLLECTION</span>
-        <h2 class="font-headline-lg text-headline-lg text-on-surface mt-2">Identidades Visuais de Animais</h2>
-        <p class="font-body-md text-body-md text-on-surface-variant mt-2">Logotipos desenhados à mão e vetorizados com exclusividade. Projetos que transmitem força, elegância e conexão com o cliente.</p>
+        <h2 class="font-headline-lg text-headline-lg text-on-surface mt-2">Coleção de Logotipos Metálicos</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-2">Identidades visuais premium focadas em animais, com acabamentos metálicos exclusivos e visual moderno.</p>
     </div>
 
-    <!-- Animal Zig Zag Container -->
-    <div id="animal-zigzag-container" class="flex flex-col">
+    <!-- Animal Grid Container -->
+    <div id="animal-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
         <!-- Loaded via javascript -->
     </div>
 </section>
@@ -730,8 +730,8 @@
                     if (img4) img4.src = globalLogos[3 % globalLogos.length];
                 }
 
-                // Build Animal Zig Zag Section
-                buildAnimalZigZag(animalLogos);
+                // Build Animal Grid Section
+                buildAnimalGrid(animalLogos);
 
                 // Build Diagonal Marquees
                 buildDiagonalMarquees(data);
@@ -750,9 +750,9 @@
             })
             .catch(err => console.error("Error loading dynamic portfolio content", err));
 
-        // Build Animal Zig Zag rows
-        function buildAnimalZigZag(logos) {
-            const container = document.getElementById('animal-zigzag-container');
+        // Build Animal Grid (Organized together)
+        function buildAnimalGrid(logos) {
+            const container = document.getElementById('animal-grid-container');
             if (logos.length === 0) return;
             
             function getAnimalTitle(filePath) {
@@ -760,55 +760,40 @@
                 const baseName = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
                 const lower = baseName.toLowerCase();
                 
-                if (lower.includes('bear')) return 'Identidade Visual Urso Esmeralda';
-                if (lower.includes('bull')) return 'Logotipo Touro de Bronze';
-                if (lower.includes('cobra')) return 'Design de Cobra Neon';
-                if (lower.includes('gorilla')) return 'Logotipo Gorila Metálico';
-                if (lower.includes('lion')) return 'Identidade Visual Leão de Ouro';
-                if (lower.includes('panther')) return 'Design Pantera Negra Matte';
-                if (lower.includes('phoenix')) return 'Conceito Fênix de Fogo';
-                if (lower.includes('shark')) return 'Logotipo Tubarão Cibernético';
-                if (lower.includes('stallion')) return 'Identidade Visual Cavalo de Aço';
+                if (lower.includes('bear')) return 'Urso Esmeralda';
+                if (lower.includes('bull')) return 'Touro de Bronze';
+                if (lower.includes('cobra')) return 'Cobra Lime Neon';
+                if (lower.includes('gorilla')) return 'Gorila Ametista';
+                if (lower.includes('lion')) return 'Leão Imperial';
+                if (lower.includes('panther')) return 'Pantera Negra Matte';
+                if (lower.includes('phoenix')) return 'Fênix de Fogo';
+                if (lower.includes('shark')) return 'Tubarão Metálico';
+                if (lower.includes('stallion')) return 'Garanhão de Aço';
                 
-                return 'Logotipo Vetorial Customizado';
+                return 'Logotipo Metálico Exclusivo';
             }
             
             logos.forEach((logo, idx) => {
-                const isEven = idx % 2 === 0;
-                const row = document.createElement('div');
-                row.className = 'grid grid-cols-1 md:grid-cols-12 gap-12 items-center mb-24 reveal';
+                const item = document.createElement('div');
+                item.className = 'group relative overflow-hidden rounded-lg border border-surface-variant/40 deep-shadow glow-hover h-[380px] flex flex-col items-center justify-center bg-black/80';
                 
-                const imgCol = `
-                    <div class="md:col-span-7 group relative overflow-hidden h-[250px] sm:h-[350px] md:h-[400px] flex items-center justify-center">
-                        <!-- Blurred Background Parallax Image (offset to the side as a premium watermark) -->
-                        <img class="absolute w-[80%] h-[80%] object-contain opacity-[0.14] filter blur-[6px] pointer-events-none scroll-bg-parallax ${isEven ? '-right-10 -bottom-10' : '-left-10 -bottom-10'}" src="${logo}" alt="Blurred Logo Parallax"/>
-                        
-                        <!-- Dynamic Average Color Glow -->
-                        <div class="absolute inset-0 opacity-30 filter blur-3xl pointer-events-none transition-all duration-700 group-hover:opacity-50 dynamic-glow-bg" style="background: radial-gradient(circle, rgba(255, 183, 123, 0.4) 0%, transparent 70%);"></div>
-                        
-                        <!-- Foreground Image (Main Logo) -->
-                        <img class="relative z-10 max-h-[85%] max-w-[85%] object-contain scroll-zoom-img transition-transform duration-1000 ease-out zoomable-img animal-logo-img" src="${logo}" alt="Logotipo Animal Customizado" onload="extractGlowColor(this)"/>
+                item.innerHTML = `
+                    <!-- Blurred Background Parallax Image -->
+                    <img class="absolute w-[90%] h-[90%] object-contain opacity-[0.14] filter blur-[6px] pointer-events-none scroll-bg-parallax" src="${logo}" alt="Blurred Logo Parallax"/>
+                    
+                    <!-- Dynamic Average Color Glow -->
+                    <div class="absolute inset-0 opacity-20 filter blur-3xl pointer-events-none transition-all duration-750 group-hover:opacity-45 dynamic-glow-bg" style="background: radial-gradient(circle, rgba(255, 183, 123, 0.4) 0%, transparent 70%);"></div>
+                    
+                    <!-- Foreground Image (Main Logo) -->
+                    <img class="relative z-10 max-h-[70%] max-w-[70%] object-contain scroll-zoom-img transition-transform duration-1000 ease-out zoomable-img animal-logo-img" src="${logo}" alt="Logotipo Animal Customizado" onload="extractGlowColor(this)"/>
+                    
+                    <!-- Text Overlay info at the bottom -->
+                    <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent z-20 flex flex-col gap-1 text-left">
+                        <span class="font-label-caps text-[10px] text-primary/95 tracking-[0.15em]">PROJETO EXCLUSIVO #${idx + 1}</span>
+                        <h4 class="text-base font-semibold tracking-wide text-on-surface uppercase">${getAnimalTitle(logo)}</h4>
                     </div>
                 `;
-                
-                const textCol = `
-                    <div class="md:col-span-5 flex flex-col gap-4 ${isEven ? 'md:pl-8' : 'md:pr-8'}">
-                        <span class="font-label-caps text-label-caps text-primary tracking-[0.2em]">PROJETO EXCLUSIVO #${idx + 1}</span>
-                        <h3 class="font-headline-lg text-2xl md:text-3xl text-on-surface uppercase font-bold">${getAnimalTitle(logo)}</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant font-light">Este logotipo de animal foi projetado sob medida, focando na força visual e representatividade única da fauna. Uma fusão perfeita entre traços elegantes e memorabilidade comercial.</p>
-                        <div class="flex flex-wrap gap-2 mt-2">
-                            <span class="px-3 py-1 bg-surface-variant text-on-surface text-meta-sm font-meta-sm rounded-sm">VETOR DE ALTA DEFINIÇÃO</span>
-                            <span class="px-3 py-1 bg-surface-variant text-on-surface text-meta-sm font-meta-sm rounded-sm">CONCEITO EXCLUSIVO</span>
-                        </div>
-                    </div>
-                `;
-                
-                if (isEven) {
-                    row.innerHTML = textCol + imgCol;
-                } else {
-                    row.innerHTML = imgCol + textCol;
-                }
-                container.appendChild(row);
+                container.appendChild(item);
             });
         }
 
