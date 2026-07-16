@@ -14,53 +14,53 @@
             theme: {
                 extend: {
                     "colors": {
-                        "inverse-surface": "#e5e2e1",
-                        "surface-container": "#20201f",
+                        "inverse-surface": "#ffd8d8",
+                        "surface-container": "#080808",
                         "on-tertiary-fixed-variant": "#454747",
-                        "surface-container-low": "#1c1b1b",
+                        "surface-container-low": "#060606",
                         "error-container": "#93000a",
                         "on-tertiary-container": "#282a2a",
-                        "on-surface": "#e5e2e1",
+                        "on-surface": "#ffd8d8",
                         "on-error": "#690005",
                         "secondary": "#c1c1ff",
                         "tertiary-fixed": "#e2e2e2",
-                        "surface-container-highest": "#353535",
+                        "surface-container-highest": "#121212",
                         "secondary-fixed": "#e2dfff",
-                        "surface": "#131313",
+                        "surface": "#040404",
                         "outline-variant": "#524439",
                         "tertiary-container": "#909191",
                         "on-tertiary": "#2f3131",
-                        "background": "#0a0a0a",
+                        "background": "#000000",
                         "tertiary": "#c6c6c6",
-                        "surface-bright": "#393939",
+                        "surface-bright": "#1c1c1c",
                         "surface-tint": "#ff3333",
                         "tertiary-fixed-dim": "#c6c6c6",
-                        "surface-container-high": "#2a2a2a",
-                        "surface-variant": "#353535",
+                        "surface-container-high": "#0c0c0c",
+                        "surface-variant": "#161616",
                         "on-primary-fixed": "#410002",
                         "on-tertiary-fixed": "#1a1c1c",
                         "secondary-container": "#3836a7",
                         "inverse-primary": "#ba1a1a",
                         "primary-fixed-dim": "#ff3333",
                         "primary-container": "#93000a",
-                        "surface-container-lowest": "#050505",
+                        "surface-container-lowest": "#020202",
                         "on-secondary-fixed-variant": "#3836a7",
                         "on-primary": "#ffffff",
                         "primary": "#ff3333",
                         "primary-fixed": "#ffdad6",
-                        "surface-dim": "#131313",
-                        "inverse-on-surface": "#313030",
+                        "surface-dim": "#080808",
+                        "inverse-on-surface": "#121212",
                         "on-error-container": "#ffdad6",
                         "error": "#ffb4ab",
                         "on-secondary-fixed": "#0a006b",
-                        "on-surface-variant": "#e5e2e1",
+                        "on-surface-variant": "#d3abab",
                         "outline": "#857373",
                         "on-primary-fixed-variant": "#93000a",
                         "on-secondary-container": "#adadff",
                         "secondary-fixed-dim": "#c1c1ff",
                         "on-secondary": "#1f1891",
                         "on-primary-container": "#ffdad6",
-                        "on-background": "#e5e2e1"
+                        "on-background": "#ffd8d8"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.25rem",
@@ -118,17 +118,28 @@
             will-change: transform;
             transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .glow-hover {
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
         .glow-hover:hover {
-            box-shadow: 0 0 30px rgba(255, 183, 123, 0.25);
+            box-shadow: 0 0 30px rgba(255, 51, 51, 0.25);
             transform: scale(1.03);
-            border-color: rgba(255, 183, 123, 0.4);
+            border-color: rgba(255, 51, 51, 0.4);
             z-index: 10;
         }
         .deep-shadow {
             box-shadow: 0 20px 40px -10px rgba(0,0,0,0.8);
+        }
+        
+        /* Ambient Red Blur Background Glow Animation */
+        .bg-red-glow-ambient {
+            background: radial-gradient(circle, rgba(255, 51, 51, 0.12) 0%, transparent 70%);
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: -1;
+            animation: ambientGlow 12s ease-in-out infinite alternate;
+        }
+        @keyframes ambientGlow {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            50% { transform: translate(4%, 3%) scale(1.15); opacity: 0.9; }
+            100% { transform: translate(-4%, 2%) scale(0.9); opacity: 0.7; }
         }
         
         @keyframes float {
@@ -356,6 +367,9 @@
         
         <!-- Foreground content layer (fades in at 80% scroll) -->
         <div id="hero-text-content" class="relative z-10 flex flex-col md:flex-row items-center gap-12 max-w-5xl mx-auto px-margin-desktop transition-all duration-1000 opacity-0 transform translate-y-12 pointer-events-none">
+            <!-- Ambient animated red glow behind hero text and profile -->
+            <div class="absolute -inset-10 bg-red-glow-ambient rounded-full mix-blend-screen pointer-events-none"></div>
+            
             <div class="flex-1 text-center md:text-left">
                 <span class="font-label-caps text-label-caps text-primary tracking-[0.2em] mb-4 block">DESIGNER DE LOGOTIPOS</span>
                 <h1 class="font-display-lg text-4xl md:text-6xl lg:text-7xl text-on-surface mb-6 drop-shadow-2xl uppercase leading-none font-bold">DESIGN DE LOGOTIPOS &amp; IDENTIDADES DE MARCA</h1>
@@ -378,7 +392,11 @@
 <main class="w-full" id="projects">
 
 <!-- Section Animais (NEW - Grid Layout) -->
-<section id="animal-section" class="py-section-gap px-margin-desktop max-w-[1200px] mx-auto overflow-hidden">
+<section id="animal-section" class="py-section-gap px-margin-desktop max-w-[1200px] mx-auto overflow-hidden relative">
+    <!-- Ambient animated red glow behind grid -->
+    <div class="absolute -right-20 top-1/4 w-[45vw] h-[45vw] max-w-[600px] bg-red-glow-ambient rounded-full mix-blend-screen pointer-events-none -z-10"></div>
+    <div class="absolute -left-20 bottom-10 w-[45vw] h-[45vw] max-w-[600px] bg-red-glow-ambient rounded-full mix-blend-screen pointer-events-none -z-10" style="animation-delay: -4s;"></div>
+    
     <div class="mb-16 text-center max-w-2xl mx-auto reveal">
         <span class="font-label-caps text-label-caps text-primary tracking-[0.1em]">02. ANIMAL COLLECTION</span>
         <h2 class="font-headline-lg text-headline-lg text-on-surface mt-2">Coleção de Logotipos Metálicos</h2>
