@@ -340,7 +340,7 @@
 </nav>
 
 <!-- Scroll Interactive Hero Section -->
-<div id="scroll-hero-container" class="relative w-full h-[250vh] bg-background">
+<div id="scroll-hero-container" class="relative w-full h-[500vh] bg-background">
     <!-- Sticky Viewport -->
     <div class="sticky top-0 left-0 w-full h-screen overflow-hidden flex flex-col items-center justify-center">
         
@@ -374,22 +374,6 @@
 </div>
 
 <main class="w-full" id="projects">
-<!-- About / Apresentação Section -->
-<section id="about" class="py-section-gap px-margin-desktop bg-background border-b border-surface-variant/20">
-    <div class="max-w-[900px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center reveal">
-        <div class="md:col-span-5 flex justify-center">
-            <div class="w-64 h-64 rounded-full overflow-hidden border-2 border-primary/20 shadow-2xl">
-                <img id="about-profile-pic" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-750" src="" alt="Kelvin L Designer Profile" />
-            </div>
-        </div>
-        <div class="md:col-span-7 flex flex-col gap-6">
-            <span class="font-label-caps text-label-caps text-primary tracking-[0.1em]">O CRIADOR DO PORTFÓLIO &amp; DESIGNER</span>
-            <h2 class="font-headline-lg text-headline-lg text-on-surface">Kelvin L</h2>
-            <p class="font-body-md text-body-md text-on-surface-variant">Sou o criador deste portfólio e especializado na criação de logotipos profissionais de alto padrão. Meu foco principal é entender detalhadamente o que o cliente quer, traduzindo seus objetivos de negócio e ideias criativas em identidades visuais fortes e prontas para o mercado.</p>
-            <p class="font-body-md text-body-md text-on-surface-variant">Seja para uma nova empresa ou um redesign completo de marca, trabalho em estreita colaboração com você para entregar um logotipo que represente exatamente sua visão comercial e conecte de verdade com seus clientes.</p>
-        </div>
-    </div>
-</section>
 
 <!-- Section Animais (NEW - Zig Zag Cinematic Layout) -->
 <section id="animal-section" class="py-section-gap px-margin-desktop max-w-[1200px] mx-auto overflow-hidden">
@@ -488,6 +472,23 @@
 </div>
 </div>
 </div>
+</section>
+
+<!-- About / Apresentação Section (Moved to Bottom) -->
+<section id="about" class="py-section-gap px-margin-desktop bg-background border-y border-surface-variant/20">
+    <div class="max-w-[900px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center reveal">
+        <div class="md:col-span-5 flex justify-center">
+            <div class="w-64 h-64 rounded-full overflow-hidden border-2 border-primary/20 shadow-2xl">
+                <img id="about-profile-pic" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-750" src="" alt="Kelvin L Designer Profile" />
+            </div>
+        </div>
+        <div class="md:col-span-7 flex flex-col gap-6">
+            <span class="font-label-caps text-label-caps text-primary tracking-[0.1em]">O CRIADOR DO PORTFÓLIO &amp; DESIGNER</span>
+            <h2 class="font-headline-lg text-headline-lg text-on-surface">Kelvin L</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant">Sou o criador deste portfólio e especializado na criação de logotipos profissionais de alto padrão. Meu foco principal é entender detalhadamente o que o cliente quer, traduzindo seus objetivos de negócio e ideias criativas em identidades visuais fortes e prontas para o mercado.</p>
+            <p class="font-body-md text-body-md text-on-surface-variant">Seja para uma nova empresa ou um redesign completo de marca, trabalho em estreita colaboração com você para entregar um logotipo que represente exatamente sua visão comercial e conecte de verdade com seus clientes.</p>
+        </div>
+    </div>
 </section>
 
 <!-- Section 5: Gallery Grid (Dinâmico) -->
@@ -922,19 +923,52 @@
                 const totalScrollable = containerHeight - viewHeight;
                 let progress = Math.min(Math.max(scrolledDistance / totalScrollable, 0), 1);
                 
-                const frameIndex = Math.min(Math.floor(progress * (frameImages.length - 1)), frameImages.length - 1);
+                // 1. Play video frames slowly (0.0 to 0.75 progress)
+                let frameIndex = 0;
+                if (progress <= 0.75) {
+                    const normProgress = progress / 0.75;
+                    frameIndex = Math.min(Math.floor(normProgress * (frameImages.length - 1)), frameImages.length - 1);
+                } else {
+                    frameIndex = frameImages.length - 1;
+                }
+                
                 if (frameImages[frameIndex]) {
                     sequenceFrame.src = frameImages[frameIndex];
                 }
                 
-                if (progress > 0.8) {
-                    heroContent.classList.remove('opacity-0', 'translate-y-12', 'pointer-events-none');
-                    heroContent.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                // 2. Select text column and image column elements for sliding away
+                const textCol = heroContent.querySelector('.flex-1');
+                const imgCol = heroContent.querySelector('.relative.w-64');
+                
+                if (progress < 0.75) {
+                    // Phase A: Hidden
+                    heroContent.style.opacity = '0';
+                    heroContent.style.pointerEvents = 'none';
+                    if (textCol) textCol.style.transform = 'translateX(-50px)';
+                    if (imgCol) imgCol.style.transform = 'translateX(50px)';
+                    heroIndicator.style.opacity = (1 - (progress * 1.5)).toString();
+                } else if (progress >= 0.75 && progress < 0.90) {
+                    // Phase B: Reveal / Normal center position
+                    const revealProgress = (progress - 0.75) / 0.15; // 0 to 1
+                    heroContent.style.opacity = revealProgress.toString();
+                    heroContent.style.pointerEvents = 'auto';
+                    
+                    const textOffset = -50 * (1 - revealProgress);
+                    const imgOffset = 50 * (1 - revealProgress);
+                    if (textCol) textCol.style.transform = `translateX(${textOffset}px)`;
+                    if (imgCol) imgCol.style.transform = `translateX(${imgOffset}px)`;
                     heroIndicator.style.opacity = '0';
                 } else {
-                    heroContent.classList.add('opacity-0', 'translate-y-12', 'pointer-events-none');
-                    heroContent.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-                    heroIndicator.style.opacity = (1 - (progress * 1.5)).toString();
+                    // Phase C: Slide away to the sides (Split)
+                    const slideProgress = (progress - 0.90) / 0.10; // 0 to 1
+                    heroContent.style.opacity = (1 - slideProgress).toString();
+                    heroContent.style.pointerEvents = 'none';
+                    
+                    const textOffset = -200 * slideProgress; // Slide left
+                    const imgOffset = 200 * slideProgress;  // Slide right
+                    if (textCol) textCol.style.transform = `translateX(${textOffset}px)`;
+                    if (imgCol) imgCol.style.transform = `translateX(${imgOffset}px)`;
+                    heroIndicator.style.opacity = '0';
                 }
             }
 
