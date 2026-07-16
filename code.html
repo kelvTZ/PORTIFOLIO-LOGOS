@@ -339,25 +339,39 @@
 </div>
 </nav>
 
-<!-- Hero Section -->
-<header class="relative h-screen flex flex-col justify-center items-center px-margin-desktop bg-[#080808] overflow-hidden">
-<div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent"></div>
-<div class="z-10 flex flex-col md:flex-row items-center gap-12 max-w-5xl mx-auto animate-cinematic">
-    <div class="flex-1 text-center md:text-left">
-        <span class="font-label-caps text-label-caps text-primary tracking-[0.2em] mb-4 block">DESIGNER DE LOGOTIPOS</span>
-        <h1 class="font-display-lg text-4xl md:text-6xl lg:text-7xl text-on-surface mb-6 drop-shadow-2xl uppercase leading-none font-bold">DESIGN DE LOGOTIPOS &amp; IDENTIDADES DE MARCA</h1>
-        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl font-light drop-shadow-md">Olá! Sou Kelvin L, criador deste portfólio, criador de logotipos e designer de identidades visuais personalizadas. Transformo suas ideias e desejos em logotipos marcantes e profissionais que destacam o seu negócio.</p>
-    </div>
-    <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden border border-primary/20 shadow-2xl animate-float">
-        <img id="hero-profile-pic" class="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-700" src="" alt="Kelvin L Designer Foto de Perfil" />
-        <div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
+<!-- Scroll Interactive Hero Section -->
+<div id="scroll-hero-container" class="relative w-full h-[250vh] bg-background">
+    <!-- Sticky Viewport -->
+    <div class="sticky top-0 left-0 w-full h-screen overflow-hidden flex flex-col items-center justify-center">
+        
+        <!-- Video Sequence Player -->
+        <div class="absolute inset-0 w-full h-full flex items-center justify-center z-0 bg-[#060606]">
+            <img id="sequence-frame" class="w-full h-full object-cover opacity-80" src="" alt="Video Frame Intro"/>
+            <!-- Dark Vignette Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent pointer-events-none"></div>
+            <div class="absolute inset-0 bg-black/50 pointer-events-none"></div>
+        </div>
+        
+        <!-- Foreground content layer (fades in at 80% scroll) -->
+        <div id="hero-text-content" class="relative z-10 flex flex-col md:flex-row items-center gap-12 max-w-5xl mx-auto px-margin-desktop transition-all duration-1000 opacity-0 transform translate-y-12 pointer-events-none">
+            <div class="flex-1 text-center md:text-left">
+                <span class="font-label-caps text-label-caps text-primary tracking-[0.2em] mb-4 block">DESIGNER DE LOGOTIPOS</span>
+                <h1 class="font-display-lg text-4xl md:text-6xl lg:text-7xl text-on-surface mb-6 drop-shadow-2xl uppercase leading-none font-bold">DESIGN DE LOGOTIPOS &amp; IDENTIDADES DE MARCA</h1>
+                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl font-light drop-shadow-md">Olá! Sou Kelvin L, criador deste portfólio, criador de logotipos e designer de identidades visuais personalizadas. Transformo suas ideias e desejos em logotipos marcantes e profissionais que destacam o seu negócio.</p>
+            </div>
+            <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden border border-primary/20 shadow-2xl animate-float">
+                <img id="hero-profile-pic" class="w-full h-full object-cover opacity-95 hover:scale-105 transition-transform duration-700" src="" alt="Kelvin L Designer Foto de Perfil" />
+                <div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div id="hero-scroll-indicator" class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-75 transition-opacity duration-500 z-10 pointer-events-none">
+            <span class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.1em] text-xs">ROLE O MOUSE PARA ASSISTIR</span>
+            <div class="w-px h-16 bg-gradient-to-b from-primary to-transparent"></div>
+        </div>
     </div>
 </div>
-<div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-70 hover:opacity-100 transition-opacity cursor-pointer" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
-<span class="font-label-caps text-label-caps text-on-surface-variant">SCROLL PARA EXPLORAR</span>
-<div class="w-px h-16 bg-gradient-to-b from-primary to-transparent"></div>
-</div>
-</header>
 
 <main class="w-full" id="projects">
 <!-- About / Apresentação Section -->
@@ -527,6 +541,8 @@
         let profilePic = "";
         let currentZoomIndex = -1;
         let lightboxImagesList = [];
+        let frameImages = [];
+        let framesLoaded = false;
 
         // Scroll Reveal Observer
         const revealElements = document.querySelectorAll('.reveal');
@@ -664,6 +680,29 @@
                 globalLogos = deduplicateLogos(data.all || []);
                 animalLogos = data.secaoAnimais;
                 profilePic = data.profile || "";
+                frameImages = data.videoFrames || [];
+
+                if (frameImages.length > 0) {
+                    preloadFrames(frameImages);
+                }
+
+                function preloadFrames(frames) {
+                    let loadedCount = 0;
+                    frames.forEach(src => {
+                        const img = new Image();
+                        img.src = src;
+                        img.onload = () => {
+                            loadedCount++;
+                            if (loadedCount === frames.length) {
+                                framesLoaded = true;
+                                const initialFrame = document.getElementById('sequence-frame');
+                                if (initialFrame) {
+                                    initialFrame.src = frames[0];
+                                }
+                            }
+                        };
+                    });
+                }
 
                 if (profilePic) {
                     const navPic = document.getElementById('nav-profile-pic');
@@ -867,6 +906,37 @@
             scrollY = window.pageYOffset;
             const diff = scrollY - lastScrollY;
             lastScrollY = scrollY;
+
+            // Scroll controlled hero sequence
+            const scrollHero = document.getElementById('scroll-hero-container');
+            const sequenceFrame = document.getElementById('sequence-frame');
+            const heroContent = document.getElementById('hero-text-content');
+            const heroIndicator = document.getElementById('hero-scroll-indicator');
+            
+            if (scrollHero && sequenceFrame && frameImages.length > 0) {
+                const rect = scrollHero.getBoundingClientRect();
+                const containerHeight = scrollHero.offsetHeight;
+                const viewHeight = window.innerHeight;
+                
+                const scrolledDistance = -rect.top;
+                const totalScrollable = containerHeight - viewHeight;
+                let progress = Math.min(Math.max(scrolledDistance / totalScrollable, 0), 1);
+                
+                const frameIndex = Math.min(Math.floor(progress * (frameImages.length - 1)), frameImages.length - 1);
+                if (frameImages[frameIndex]) {
+                    sequenceFrame.src = frameImages[frameIndex];
+                }
+                
+                if (progress > 0.8) {
+                    heroContent.classList.remove('opacity-0', 'translate-y-12', 'pointer-events-none');
+                    heroContent.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                    heroIndicator.style.opacity = '0';
+                } else {
+                    heroContent.classList.add('opacity-0', 'translate-y-12', 'pointer-events-none');
+                    heroContent.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                    heroIndicator.style.opacity = (1 - (progress * 1.5)).toString();
+                }
+            }
 
             // Slow motion Parallax elements
             const parallaxElements = document.querySelectorAll('.parallax-element');
