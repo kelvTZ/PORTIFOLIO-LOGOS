@@ -803,7 +803,7 @@
                     <div class="absolute inset-0 opacity-20 filter blur-3xl pointer-events-none transition-all duration-750 group-hover:opacity-45 dynamic-glow-bg" style="background: radial-gradient(circle, rgba(255, 183, 123, 0.4) 0%, transparent 70%);"></div>
                     
                     <!-- Foreground Image (Main Logo) -->
-                    <img class="relative z-10 max-h-[70%] max-w-[70%] object-contain scroll-zoom-img transition-transform duration-1000 ease-out zoomable-img animal-logo-img" src="${logo}" alt="Logotipo Animal Customizado" onload="extractGlowColor(this)"/>
+                    <img class="relative z-10 max-h-[70%] max-w-[70%] object-contain scroll-zoom-img zoomable-img animal-logo-img" src="${logo}" alt="Logotipo Animal Customizado" onload="extractGlowColor(this)"/>
                     
                     <!-- Text Overlay info at the bottom -->
                     <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent z-20 flex flex-col gap-1 text-left">
@@ -994,7 +994,7 @@
                 const maxDistance = viewHeight / 2 + 100;
                 if (rect.top < viewHeight && rect.bottom > 0) {
                     const progress = 1 - Math.min(1, distanceToCenter / maxDistance); 
-                    const scaleValue = 1 + (progress * 0.08); 
+                    const scaleValue = 1 + (progress * 0.15); // Dynamic zoom up to 15%
                     img.style.transform = `scale(${scaleValue})`;
                 } else {
                     img.style.transform = `scale(1)`;
@@ -1008,7 +1008,7 @@
                 const viewHeight = window.innerHeight;
                 if (rect.top < viewHeight && rect.bottom > 0) {
                     const scrollProgress = (rect.top + rect.height) / (viewHeight + rect.height);
-                    const yTranslation = (scrollProgress - 0.5) * -45; // Slow motion translation
+                    const yTranslation = (scrollProgress - 0.5) * -65; // Dynamic parallax shift up to 65px
                     bg.style.transform = `translateY(${yTranslation}px)`;
                 }
             });
