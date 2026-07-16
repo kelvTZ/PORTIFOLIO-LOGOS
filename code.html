@@ -345,11 +345,13 @@
     <div class="sticky top-0 left-0 w-full h-screen overflow-hidden flex flex-col items-center justify-center">
         
         <!-- Video Sequence Player -->
-        <div class="absolute inset-0 w-full h-full flex items-center justify-center z-0 bg-[#060606]">
-            <img id="sequence-frame" class="w-full h-full object-cover opacity-80" src="" alt="Video Frame Intro"/>
-            <!-- Dark Vignette Overlay -->
+        <div class="absolute inset-0 w-full h-full flex items-center justify-center z-0 bg-[#060606] overflow-hidden">
+            <!-- Scaled up by 8% to crop out AI watermarks on the outer margins -->
+            <img id="sequence-frame" class="w-[108%] h-[108%] min-w-[108%] min-h-[108%] object-cover opacity-75 transform scale-105 pointer-events-none" src="" alt="Video Frame Intro"/>
+            
+            <!-- Cinematic Vignette Overlay (darkens borders and corners) -->
+            <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle, transparent 35%, rgba(0, 0, 0, 0.85) 100%);"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent pointer-events-none"></div>
-            <div class="absolute inset-0 bg-black/50 pointer-events-none"></div>
         </div>
         
         <!-- Foreground content layer (fades in at 80% scroll) -->
