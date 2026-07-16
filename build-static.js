@@ -7,6 +7,14 @@ const PROFILE_DIR = 'C:\\Users\\lexke\\Downloads\\foto';
 const FRAMES_DIR = 'C:\\Users\\lexke\\Downloads\\ezgif-8483c211edb3c0ed-jpg';
 const WORKSPACE_DIR = __dirname;
 
+// Helper to clean directory if it exists
+function cleanDirSync(dirPath) {
+    if (fs.existsSync(dirPath)) {
+        fs.rmSync(dirPath, { recursive: true, force: true });
+    }
+    fs.mkdirSync(dirPath, { recursive: true });
+}
+
 // Helper to copy directory recursively
 function copyDirSync(src, dest) {
     if (!fs.existsSync(src)) return;
@@ -44,14 +52,18 @@ function getFilesRecursively(dirPath, baseRoute = '') {
     return results;
 }
 
-console.log('Copying assets into project directory for static hosting...');
-
-// Create destination directories
+console.log('Cleaning assets directories...');
 const destLogos = path.join(WORKSPACE_DIR, 'logos');
 const destAnimals = path.join(WORKSPACE_DIR, 'logos-animais');
 const destProfile = path.join(WORKSPACE_DIR, 'profile-photo');
 const destFrames = path.join(WORKSPACE_DIR, 'video-frames');
 
+cleanDirSync(destLogos);
+cleanDirSync(destAnimals);
+cleanDirSync(destProfile);
+cleanDirSync(destFrames);
+
+console.log('Copying assets into project directory for static hosting...');
 copyDirSync(LOGOS_DIR, destLogos);
 copyDirSync(ANIMALS_DIR, destAnimals);
 copyDirSync(PROFILE_DIR, destProfile);

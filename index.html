@@ -722,16 +722,15 @@
         "logos/seçao 3/Supercar_brand_branding_collage_2K_202607160322.jpeg"
     ],
     "secaoAnimais": [
-        "logos-animais/logos animais-1.png",
-        "logos-animais/logos animais-10.png",
-        "logos-animais/logos animais-2.png",
-        "logos-animais/logos animais-3.png",
-        "logos-animais/logos animais-4.png",
-        "logos-animais/logos animais-5.png",
-        "logos-animais/logos animais-6.png",
-        "logos-animais/logos animais-7.png",
-        "logos-animais/logos animais-8.png",
-        "logos-animais/logos animais-9.png"
+        "logos-animais/Metallic_bear_logo_emerald_green_202607161339.jpeg",
+        "logos-animais/Metallic_bull_logo_orange_finish_202607161339.jpeg",
+        "logos-animais/Metallic_cobra_logo_lime_green_202607161339 (1).jpeg",
+        "logos-animais/Metallic_gorilla_logo_purple_finish_202607161339 (1).jpeg",
+        "logos-animais/Metallic_lion_head_logo_2K_202607161339.jpeg",
+        "logos-animais/Metallic_panther_logo_matte_black_202607161340.jpeg",
+        "logos-animais/Metallic_phoenix_logo_magenta_fi…_202607161339.jpeg",
+        "logos-animais/Metallic_shark_logo_cyan_2K_202607161339.jpeg",
+        "logos-animais/Metallic_stallion_logo_crimson_red_202607161339.jpeg"
     ],
     "videoFrames": [
         "video-frames/ezgif-frame-001.jpg",
@@ -826,16 +825,15 @@
         "logos/seçao 3/Pickup_truck_branding_collage_2K_202607160323.jpeg",
         "logos/seçao 3/Porsche_911_branding_collage_2K_202607160323.jpeg",
         "logos/seçao 3/Supercar_brand_branding_collage_2K_202607160322.jpeg",
-        "logos-animais/logos animais-1.png",
-        "logos-animais/logos animais-10.png",
-        "logos-animais/logos animais-2.png",
-        "logos-animais/logos animais-3.png",
-        "logos-animais/logos animais-4.png",
-        "logos-animais/logos animais-5.png",
-        "logos-animais/logos animais-6.png",
-        "logos-animais/logos animais-7.png",
-        "logos-animais/logos animais-8.png",
-        "logos-animais/logos animais-9.png"
+        "logos-animais/Metallic_bear_logo_emerald_green_202607161339.jpeg",
+        "logos-animais/Metallic_bull_logo_orange_finish_202607161339.jpeg",
+        "logos-animais/Metallic_cobra_logo_lime_green_202607161339 (1).jpeg",
+        "logos-animais/Metallic_gorilla_logo_purple_finish_202607161339 (1).jpeg",
+        "logos-animais/Metallic_lion_head_logo_2K_202607161339.jpeg",
+        "logos-animais/Metallic_panther_logo_matte_black_202607161340.jpeg",
+        "logos-animais/Metallic_phoenix_logo_magenta_fi…_202607161339.jpeg",
+        "logos-animais/Metallic_shark_logo_cyan_2K_202607161339.jpeg",
+        "logos-animais/Metallic_stallion_logo_crimson_red_202607161339.jpeg"
     ]
 };
         
@@ -921,18 +919,23 @@
             const container = document.getElementById('animal-zigzag-container');
             if (logos.length === 0) return;
             
-            const animalNames = [
-                "Identidade Visual Premium",
-                "Design de Logotipo Vetorial",
-                "Conceito de Marca Exclusivo",
-                "Símbolo Corporativo Moderno",
-                "Logo Premium Sob Medida",
-                "Design de Identidade Exclusiva",
-                "Logotipo Vetorial de Alta Classe",
-                "Conceito Visual Corporativo",
-                "Identidade de Marca Premium",
-                "Símbolo Visual Customizado"
-            ];
+            function getAnimalTitle(filePath) {
+                const fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
+                const baseName = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
+                const lower = baseName.toLowerCase();
+                
+                if (lower.includes('bear')) return 'Identidade Visual Urso Esmeralda';
+                if (lower.includes('bull')) return 'Logotipo Touro de Bronze';
+                if (lower.includes('cobra')) return 'Design de Cobra Neon';
+                if (lower.includes('gorilla')) return 'Logotipo Gorila Metálico';
+                if (lower.includes('lion')) return 'Identidade Visual Leão de Ouro';
+                if (lower.includes('panther')) return 'Design Pantera Negra Matte';
+                if (lower.includes('phoenix')) return 'Conceito Fênix de Fogo';
+                if (lower.includes('shark')) return 'Logotipo Tubarão Cibernético';
+                if (lower.includes('stallion')) return 'Identidade Visual Cavalo de Aço';
+                
+                return 'Logotipo Vetorial Customizado';
+            }
             
             logos.forEach((logo, idx) => {
                 const isEven = idx % 2 === 0;
@@ -955,7 +958,7 @@
                 const textCol = `
                     <div class="md:col-span-5 flex flex-col gap-4 ${isEven ? 'md:pl-8' : 'md:pr-8'}">
                         <span class="font-label-caps text-label-caps text-primary tracking-[0.2em]">PROJETO EXCLUSIVO #${idx + 1}</span>
-                        <h3 class="font-headline-lg text-2xl md:text-3xl text-on-surface uppercase font-bold">${animalNames[idx % animalNames.length]}</h3>
+                        <h3 class="font-headline-lg text-2xl md:text-3xl text-on-surface uppercase font-bold">${getAnimalTitle(logo)}</h3>
                         <p class="font-body-md text-body-md text-on-surface-variant font-light">Este logotipo de animal foi projetado sob medida, focando na força visual e representatividade única da fauna. Uma fusão perfeita entre traços elegantes e memorabilidade comercial.</p>
                         <div class="flex flex-wrap gap-2 mt-2">
                             <span class="px-3 py-1 bg-surface-variant text-on-surface text-meta-sm font-meta-sm rounded-sm">VETOR DE ALTA DEFINIÇÃO</span>
