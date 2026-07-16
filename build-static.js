@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const LOGOS_DIR = 'C:\\Users\\lexke\\Downloads\\PORTIFOLIO LOGOS';
-const ANIMALS_DIR = 'C:\\Users\\lexke\\Downloads\\logos animais';
+const ANIMALS_DIR = 'C:\\Users\\lexke\\Downloads\\PORTIFOLIO LOGOS\\logos animais';
 const PROFILE_DIR = 'C:\\Users\\lexke\\Downloads\\foto';
 const FRAMES_DIR = 'C:\\Users\\lexke\\Downloads\\ezgif-8483c211edb3c0ed-jpg';
 const WORKSPACE_DIR = __dirname;
