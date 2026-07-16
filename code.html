@@ -457,13 +457,13 @@
 <p class="font-body-md text-body-md text-on-surface-variant max-w-sm hidden md:block">Metodologia baseada em objetivos reais, buscando sempre a simplicidade, memorabilidade e versatilidade em cada traço.</p>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-<div class="md:col-span-7 h-[500px] relative group overflow-hidden border border-surface-variant/50 deep-shadow glow-hover reveal">
+<div class="md:col-span-7 h-[300px] md:h-[500px] relative group overflow-hidden border border-surface-variant/50 deep-shadow glow-hover reveal">
 <img id="dynamic-image-2" alt="Custom Branding Process" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 zoomable-img" src=""/>
 <div class="absolute bottom-0 left-0 p-8 w-full bg-gradient-to-t from-background via-background/80 to-transparent">
 <h3 class="font-headline-md text-headline-md text-on-surface drop-shadow-lg transform transition-transform duration-500 group-hover:-translate-y-2">Identidades com Propósito</h3>
 </div>
 </div>
-<div class="md:col-span-5 h-[500px] flex flex-col gap-6">
+<div class="md:col-span-5 h-[300px] md:h-[500px] flex flex-col gap-6">
 <div class="flex-1 relative group overflow-hidden border border-surface-variant/50 deep-shadow glow-hover reveal">
 <img id="dynamic-image-3" alt="Client Logo Design" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 zoomable-img" src=""/>
 <div class="absolute inset-0 bg-background/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
@@ -773,7 +773,7 @@
                 row.className = 'grid grid-cols-1 md:grid-cols-12 gap-12 items-center mb-24 reveal';
                 
                 const imgCol = `
-                    <div class="md:col-span-7 group relative overflow-hidden h-[400px] flex items-center justify-center">
+                    <div class="md:col-span-7 group relative overflow-hidden h-[250px] sm:h-[350px] md:h-[400px] flex items-center justify-center">
                         <!-- Blurred Background Parallax Image (offset to the side as a premium watermark) -->
                         <img class="absolute w-[80%] h-[80%] object-contain opacity-[0.14] filter blur-[6px] pointer-events-none scroll-bg-parallax ${isEven ? '-right-10 -bottom-10' : '-left-10 -bottom-10'}" src="${logo}" alt="Blurred Logo Parallax"/>
                         
@@ -925,10 +925,10 @@
                 const totalScrollable = containerHeight - viewHeight;
                 let progress = Math.min(Math.max(scrolledDistance / totalScrollable, 0), 1);
                 
-                // 1. Play video frames slowly (0.0 to 0.75 progress)
+                // 1. Play video frames (0.0 to 0.8 progress)
                 let frameIndex = 0;
-                if (progress <= 0.75) {
-                    const normProgress = progress / 0.75;
+                if (progress <= 0.8) {
+                    const normProgress = progress / 0.8;
                     frameIndex = Math.min(Math.floor(normProgress * (frameImages.length - 1)), frameImages.length - 1);
                 } else {
                     frameIndex = frameImages.length - 1;
@@ -938,38 +938,23 @@
                     sequenceFrame.src = frameImages[frameIndex];
                 }
                 
-                // 2. Select text column and image column elements for sliding away
+                // 2. Select text column and image column elements
                 const textCol = heroContent.querySelector('.flex-1');
                 const imgCol = heroContent.querySelector('.relative.w-64');
                 
-                if (progress < 0.75) {
-                    // Phase A: Hidden
+                if (progress < 0.8) {
+                    // Hidden phase
                     heroContent.style.opacity = '0';
                     heroContent.style.pointerEvents = 'none';
-                    if (textCol) textCol.style.transform = 'translateX(-50px)';
-                    if (imgCol) imgCol.style.transform = 'translateX(50px)';
+                    if (textCol) textCol.style.transform = 'translateY(30px)';
+                    if (imgCol) imgCol.style.transform = 'translateY(30px)';
                     heroIndicator.style.opacity = (1 - (progress * 1.5)).toString();
-                } else if (progress >= 0.75 && progress < 0.90) {
-                    // Phase B: Reveal / Normal center position
-                    const revealProgress = (progress - 0.75) / 0.15; // 0 to 1
-                    heroContent.style.opacity = revealProgress.toString();
-                    heroContent.style.pointerEvents = 'auto';
-                    
-                    const textOffset = -50 * (1 - revealProgress);
-                    const imgOffset = 50 * (1 - revealProgress);
-                    if (textCol) textCol.style.transform = `translateX(${textOffset}px)`;
-                    if (imgCol) imgCol.style.transform = `translateX(${imgOffset}px)`;
-                    heroIndicator.style.opacity = '0';
                 } else {
-                    // Phase C: Slide away to the sides (Split)
-                    const slideProgress = (progress - 0.90) / 0.10; // 0 to 1
-                    heroContent.style.opacity = (1 - slideProgress).toString();
-                    heroContent.style.pointerEvents = 'none';
-                    
-                    const textOffset = -200 * slideProgress; // Slide left
-                    const imgOffset = 200 * slideProgress;  // Slide right
-                    if (textCol) textCol.style.transform = `translateX(${textOffset}px)`;
-                    if (imgCol) imgCol.style.transform = `translateX(${imgOffset}px)`;
+                    // Fully visible phase (centered, remains on screen until page scrolls up naturally)
+                    heroContent.style.opacity = '1';
+                    heroContent.style.pointerEvents = 'auto';
+                    if (textCol) textCol.style.transform = 'translateY(0)';
+                    if (imgCol) imgCol.style.transform = 'translateY(0)';
                     heroIndicator.style.opacity = '0';
                 }
             }
